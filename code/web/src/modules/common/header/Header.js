@@ -42,6 +42,8 @@ const Header = (props) => {
 
             <MenuItem to={home.women.path}>Women</MenuItem>
 
+            <MenuItem to={home.children.path}>Children</MenuItem>
+
             <MenuItem to={home.howItWorks.path}>How It Works</MenuItem>
 
             <MenuItem to={home.whatsNew.path}>What's New</MenuItem>
@@ -54,7 +56,7 @@ const Header = (props) => {
             props.user.isAuthenticated
               ?
               <Menu>
-                { props.user.details.role === 'ADMIN' && <MenuItem to={admin.dashboard.path} section="admin">Admin</MenuItem> }
+                {props.user.details.role === 'ADMIN' && <MenuItem to={admin.dashboard.path} section="admin">Admin</MenuItem>}
 
                 <MenuItem to={crate.list.path}>Crates</MenuItem>
 
