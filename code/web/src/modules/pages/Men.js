@@ -29,19 +29,19 @@ const Men = (props) => (
     <GridCell>
       <Grid gutter={true} alignCenter={true}>
         <GridCell justifyCenter={true}>
-          <ImageTile width={300} height={530} shadow={level1} image={`${ APP_URL }/images/stock/men/1.jpg`} />
+          <ImageTile width={300} height={530} shadow={level1} src={`${ APP_URL }/images/stock/men/1.jpg`} />
         </GridCell>
 
         <GridCell>
           <Grid>
             <GridCell justifyCenter={true}>
-              <ImageTile width={170} height={250} shadow={level1} image={`${ APP_URL }/images/stock/men/2.jpg`} />
+              <ImageTile width={170} height={250} shadow={level1} src={`${ APP_URL }/images/stock/men/2.jpg`} />
             </GridCell>
           </Grid>
 
           <Grid>
             <GridCell justifyCenter={true}>
-              <ImageTile width={170} height={250} shadow={level1} image={`${ APP_URL }/images/stock/men/3.jpg`} style={{ marginTop: '1.9em' }} />
+              <ImageTile width={170} height={250} shadow={level1} src={`${ APP_URL }/images/stock/men/3.jpg`} style={{ marginTop: '1.9em' }} />
             </GridCell>
           </Grid>
         </GridCell>
