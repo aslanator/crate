@@ -32,29 +32,29 @@ export function getList(isLoading = true, forceRefresh = false) {
       operation: 'products',
       fields: ['id', 'name', 'slug', 'description', 'image', 'createdAt', 'updatedAt']
     }))
-      .then(response => {
-        if (response.status === 200) {
-          dispatch({
-            type: PRODUCTS_GET_LIST_RESPONSE,
-            error: null,
-            isLoading: false,
-            list: response.data.data.products
-          })
-        } else {
-          dispatch({
-            type: PRODUCTS_GET_LIST_FAILURE,
-            error: 'Some error occurred. Please try again.',
-            isLoading: false
-          })
-        }
-      })
-      .catch(error => {
+    .then(response => {
+      if (response.status === 200) {
+        dispatch({
+          type: PRODUCTS_GET_LIST_RESPONSE,
+          error: null,
+          isLoading: false,
+          list: response.data.data.products
+        })
+      } else {
         dispatch({
           type: PRODUCTS_GET_LIST_FAILURE,
           error: 'Some error occurred. Please try again.',
           isLoading: false
         })
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: PRODUCTS_GET_LIST_FAILURE,
+        error: 'Some error occurred. Please try again.',
+        isLoading: false
       })
+    })
   }
 }
 
@@ -71,37 +71,37 @@ export function get(slug, isLoading = true) {
       variables: { slug },
       fields: ['id', 'name', 'slug', 'description', 'image', 'createdAt']
     }))
-      .then(response => {
-        if (response.status === 200) {
-          if (response.data.errors && response.data.errors.length > 0) {
-            dispatch({
-              type: PRODUCTS_GET_FAILURE,
-              error: response.data.errors[0].message,
-              isLoading: false
-            })
-          } else {
-            dispatch({
-              type: PRODUCTS_GET_RESPONSE,
-              error: null,
-              isLoading: false,
-              item: response.data.data.product
-            })
-          }
-        } else {
+    .then(response => {
+      if (response.status === 200) {
+        if (response.data.errors && response.data.errors.length > 0) {
           dispatch({
             type: PRODUCTS_GET_FAILURE,
-            error: 'Some error occurred. Please try again.',
+            error: response.data.errors[0].message,
             isLoading: false
           })
+        } else {
+          dispatch({
+            type: PRODUCTS_GET_RESPONSE,
+            error: null,
+            isLoading: false,
+            item: response.data.data.product
+          })
         }
-      })
-      .catch(error => {
+      } else {
         dispatch({
           type: PRODUCTS_GET_FAILURE,
-          error: error,
+          error: 'Some error occurred. Please try again.',
           isLoading: false
         })
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: PRODUCTS_GET_FAILURE,
+        error: error,
+        isLoading: false
       })
+    })
   }
 }
 
@@ -133,30 +133,30 @@ export function getRelatedList(productId, isLoading = true) {
         variables: { productId },
         fields: ['id', 'name', 'slug', 'description', 'image']
       }))
-        .then(response => {
-          if (response.status === 200) {
-            dispatch({
-              type: PRODUCTS_GET_RELATED_LIST_RESPONSE,
-              error: null,
-              isLoading: false,
-              list: response.data.data.productsRelated,
-              productId
-            })
-          } else {
-            dispatch({
-              type: PRODUCTS_GET_RELATED_LIST_FAILURE,
-              error: 'Some error occurred. Please try again.',
-              isLoading: false
-            })
-          }
-        })
-        .catch(error => {
+      .then(response => {
+        if (response.status === 200 && !response.data.errors) {
+          dispatch({
+            type: PRODUCTS_GET_RELATED_LIST_RESPONSE,
+            error: null,
+            isLoading: false,
+            list: response.data.data.productsRelated,
+            productId
+          })
+        } else {
           dispatch({
             type: PRODUCTS_GET_RELATED_LIST_FAILURE,
             error: 'Some error occurred. Please try again.',
             isLoading: false
           })
+        }
+      })
+      .catch(error => {
+        dispatch({
+          type: PRODUCTS_GET_RELATED_LIST_FAILURE,
+          error: 'Some error occurred. Please try again.',
+          isLoading: false
         })
+      })
     }
   }
 }

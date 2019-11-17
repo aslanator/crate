@@ -1,6 +1,15 @@
 // App Imports
 import params from '../../config/params'
 import models from '../../setup/models'
+import Sequelize from 'sequelize';
+
+function sequelizeRandom() {
+  let dialect = models.sequelize.getDialect();
+  if (dialect === 'postgres')
+    return models.Sequelize.fn('random');
+  else
+    return models.Sequelize.fn('RAND');
+}
 
 // Get all products
 export async function getAll() {
@@ -38,13 +47,13 @@ export async function getRelated(parentValue, { productId }) {
       id: { [models.Sequelize.Op.not]: productId }
     },
     limit: 3,
-    order: [[models.Sequelize.fn('RAND')]] // mock related products by showing random products
+    order: [[sequelizeRandom()]] // mock related products by showing random products
   })
 }
 
 // Create product
 export async function create(parentValue, { name, slug, description, type, gender, image }, { auth }) {
-  if(auth.user && auth.user.role === params.user.roles.admin) {
+  if (auth.user && auth.user.role === params.user.roles.admin) {
     return await models.Product.create({
       name,
       slug,
@@ -60,7 +69,7 @@ export async function create(parentValue, { name, slug, description, type, gende
 
 // Update product
 export async function update(parentValue, { id, name, slug, description, type, gender, image }, { auth }) {
-  if(auth.user && auth.user.role === params.user.roles.admin) {
+  if (auth.user && auth.user.role === params.user.roles.admin) {
     return await models.Product.update(
       {
         name,
@@ -79,14 +88,14 @@ export async function update(parentValue, { id, name, slug, description, type, g
 
 // Delete product
 export async function remove(parentValue, { id }, { auth }) {
-  if(auth.user && auth.user.role === params.user.roles.admin) {
-    const product = await models.Product.findOne({where: {id}})
+  if (auth.user && auth.user.role === params.user.roles.admin) {
+    const product = await models.Product.findOne({ where: { id } })
 
     if (!product) {
       // Product does not exists
       throw new Error('The product does not exists.')
     } else {
-      return await models.Product.destroy({where: {id}})
+      return await models.Product.destroy({ where: { id } })
     }
   } else {
     throw new Error('Operation denied.')
